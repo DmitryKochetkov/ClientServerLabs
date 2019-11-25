@@ -1,5 +1,3 @@
-import org.omg.CORBA_2_3.portable.OutputStream;
-
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -14,10 +12,14 @@ public class Client {
         System.out.println("Input:");
         String request = new Scanner(System.in).nextLine();
 
-        new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())).write(request);
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        writer.write(request);
+        writer.newLine();
+        writer.flush();
         System.out.println("Request has been sent to server.");
 
-        String response = new BufferedReader(new InputStreamReader(socket.getInputStream())).readLine();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        String response = reader.readLine();
         System.out.println("Response from server: " + response);
     }
 }
