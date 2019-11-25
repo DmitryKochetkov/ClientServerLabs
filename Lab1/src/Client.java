@@ -1,4 +1,6 @@
-import java.io.IOException;
+import org.omg.CORBA_2_3.portable.OutputStream;
+
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -10,12 +12,12 @@ public class Client {
         System.out.println("Connection to server established!");
 
         System.out.println("Input:");
-        char request = new Scanner(System.in).nextLine().charAt(0);
+        String request = new Scanner(System.in).nextLine();
 
-        socket.getOutputStream().write(request);
+        new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())).write(request);
         System.out.println("Request has been sent to server.");
 
-        char response = (char) socket.getInputStream().read();
+        String response = new BufferedReader(new InputStreamReader(socket.getInputStream())).readLine();
         System.out.println("Response from server: " + response);
     }
 }

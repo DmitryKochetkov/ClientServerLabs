@@ -1,4 +1,4 @@
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -13,8 +13,9 @@ public class Server {
         Socket socket = server.accept();
         System.out.println("Connection to client established!");
 
-        int c = socket.getInputStream().read();
+        String request = new BufferedReader(new InputStreamReader(socket.getInputStream())).readLine();
+        System.out.println("Request received. Evaluating response...");
 
-        socket.getOutputStream().write(c);
+        new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())).write(Double.toString(new Calculator(request).getResult()));
     }
 }
