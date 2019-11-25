@@ -10,7 +10,6 @@ public class Server {
         ServerSocket server = new ServerSocket(port, 1);
         System.out.println("Server started!");
 
-        //Character request = new BufferedReader(new InputStreamReader(socket.getInputStream())).readLine().charAt(0);
         try {
             Socket socket = server.accept();
             System.out.println("Connection to client established!");
@@ -27,8 +26,7 @@ public class Server {
             writer.newLine();
             writer.flush();
             System.out.println("Response " + response + " sent to client.");
-            //new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())).write(request);
-            //new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())).write(Double.toString(new Calculator(request).getResult()));
+
         }
         catch (IOException e)
         {
