@@ -11,11 +11,10 @@ public class Server {
         System.out.println("Server started!");
 
         Socket socket = server.accept();
-        System.out.println("Connection established!");
+        System.out.println("Connection to client established!");
 
-        char c = 'c';
+        int c = socket.getInputStream().read();
 
         socket.getOutputStream().write(c);
-
     }
 }
