@@ -48,26 +48,45 @@ public class HttpServer {
                 else System.out.println("Param is empty.");
 
                 String responseHeader;
+                String responseDoc;
+                byte[] b;
 
                 if (method.equals("GET"))
                 {
+                    String response;
                     switch (param)
                     {
                         case "":
-                            String responseDoc = "";
-                            String path = "E:\\Programming\\ClientServerLabs\\Lab2\\index.html";
-                            try (FileReader fileReader = new FileReader(path))
-                            {
-                                int c = 0;
-                                while ((c = fileReader.read()) != -1)
-                                    responseDoc += (char)c;
-                            }
-                            catch (IOException e)
-                            {
-                                System.out.println(e.getMessage());
-                            }
+                            response = "";
+                            responseDoc =
+                                    "<head><meta charset=\"UTF-8\"></head>" +
+                                            "<html><body>" +
+                                            "<p>Кочетков Дмитрий Андреевич, ИКБО-02-17</p>" + response +
+                                            "</body></html>";
+                            b = responseDoc.getBytes();
 
-                            byte[] b = responseDoc.getBytes();
+                            responseHeader =
+                                    "HTTP/1.1 200 OK\r\n\t" +
+                                            "Content-Type: text/html; charset=UTF-8\r\n\t" +
+                                            "Content-Length: " + b.length +
+                                            "\r\n\r\n";
+
+
+                            socket.getOutputStream().write(responseHeader.getBytes());
+                            socket.getOutputStream().write(b);
+
+                            System.out.println("Response header:\n\t" + responseHeader + "\n");
+                            System.out.println("Response body is HTML document.");
+                            break;
+
+                        case "calculate/*": //parsing implementation required
+                            response = "<p>Response: calculation result</p>";
+                            responseDoc =
+                                    "<head><meta charset=\"UTF-8\"></head>" +
+                                    "<html><body>" +
+                                    "<p>Кочетков Дмитрий Андреевич, ИКБО-02-17</p>" + response +
+                                    "</body></html>";
+                            b = responseDoc.getBytes();
 
                             responseHeader =
                                     "HTTP/1.1 200 OK\r\n\t" +
@@ -93,7 +112,7 @@ public class HttpServer {
                             System.out.println("Response header:\n\t" + responseHeader + "\n");
                             break;
 
-                        default: //нужно?
+                        default:
                             responseHeader =
                                     "HTTP/1.1 403 Bad Request\r\n";
                             socket.getOutputStream().write(responseHeader.getBytes());
@@ -116,5 +135,7 @@ public class HttpServer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        System.out.println("Server stopped.");
     }
 }
