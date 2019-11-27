@@ -36,10 +36,8 @@ public class HttpServer {
                 String param = "";
 
                 if (matcher.find()) {
-                    //method = request.substring(0, request.indexOf(" "));
                     method = matcher.group(1);
                     param = matcher.group(2);
-                    //param = matcher.group(1);
                 }
 
                 System.out.println("Method: " + method);
@@ -114,7 +112,7 @@ public class HttpServer {
 
                         default:
                             responseHeader =
-                                    "HTTP/1.1 403 Bad Request\r\n";
+                                    "HTTP/1.1 400 Bad Request\r\n";
                             socket.getOutputStream().write(responseHeader.getBytes());
                             System.out.println("Response header:\n\t" + responseHeader + "\n");
                             break;
@@ -123,7 +121,7 @@ public class HttpServer {
                 else
                 {
                     responseHeader =
-                            "HTTP/1.1 403 Bad Request\r\n";
+                            "HTTP/1.1 400 Bad Request\r\n";
                     socket.getOutputStream().write(responseHeader.getBytes());
                     System.out.println("Response header:\n\t" + responseHeader + "\n");
                 }
