@@ -23,7 +23,7 @@ public class HttpServer {
                 if (request == null)
                 {
                     String responseHeader =
-                            "HTTP/1.1 403 Bad Request\r\n";
+                            "HTTP/1.1 400 Bad Request\r\n";
                     socket.getOutputStream().write(responseHeader.getBytes());
                     System.out.println("Response header:\n" + responseHeader + " (null request)" + "\n");
                     break;
@@ -34,10 +34,18 @@ public class HttpServer {
 
                 String method = "";
                 String param = "";
+                String arg = "";
+
 
                 if (matcher.find()) {
                     method = matcher.group(1);
                     param = matcher.group(2);
+                }
+
+                if (param.matches("calculate/.*"))
+                {
+                    arg = param.substring("calculate/".length());
+                    param = "calculate";
                 }
 
                 System.out.println("Method: " + method);
@@ -77,8 +85,8 @@ public class HttpServer {
                             System.out.println("Response body is HTML document.");
                             break;
 
-                        case "calculate/*": //parsing implementation required
-                            response = "<p>Response: calculation result</p>";
+                        case "calculate":
+                            response = "<p>Response: " + new Calculator(arg).getResult() + "</p>";
                             responseDoc =
                                     "<head><meta charset=\"UTF-8\"></head>" +
                                     "<html><body>" +
