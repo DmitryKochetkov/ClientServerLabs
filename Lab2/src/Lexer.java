@@ -29,9 +29,7 @@ public class Lexer {
     }
 
     List<Token> lex() {
-        while (nextToken()) {
-
-        }
+        while (nextToken());
         return tokens;
     }
 }

@@ -62,15 +62,15 @@ public class Parser { //грамматический анализатор
         return e1;
     }
 
-    int eval(Node n) {
+    double eval(Node n) {
         if (n instanceof Node.NumberNode) {
             Node.NumberNode nn = (Node.NumberNode) n;
-            return Integer.parseInt(nn.number.text);
+            return Double.parseDouble(nn.number.text);
         }
         else if (n instanceof Node.BinOpNode) {
             Node.BinOpNode bn = (Node.BinOpNode) n;
-            int l = eval(bn.left);
-            int r = eval(bn.right);
+            double l = eval(bn.left);
+            double r = eval(bn.right);
             return l+r;
         }
         else if (n instanceof Node.VarNode) {
@@ -82,15 +82,15 @@ public class Parser { //грамматический анализатор
         return 0;
     }
 
-    int eval2(Node n) {
+    double eval2(Node n) {
         if (n instanceof Node.NumberNode) {
             Node.NumberNode nn = (Node.NumberNode) n;
             return Integer.parseInt(nn.number.text);
         }
         else if (n instanceof Node.BinOpNode) {
             Node.BinOpNode bn = (Node.BinOpNode) n;
-            int l = eval(bn.left);
-            int r = eval(bn.right);
+            double l = eval(bn.left);
+            double r = eval(bn.right);
             if (bn.op.type == TokenType.ADD) return l+r;
             else if (bn.op.type == TokenType.SUB) return l-r;
             else if (bn.op.type == TokenType.MUL) return l*r;

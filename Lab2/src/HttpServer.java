@@ -4,22 +4,29 @@ import java.net.Socket;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HttpServer {
+public class HttpServer implements Runnable {
     private int port;
     private ServerSocket server;
     private Socket socket;
     private OutputStream writer;
     private String request;
 
+    private Thread thread;
+
     public HttpServer(int port) throws IOException {
         this.port = port;
-        this.server = new ServerSocket(port);
     }
 
     private void response400() throws IOException {
+        String HTMLBody = "<html><h1>400 Bad Request</h1></html>";
+        byte[] bytes = HTMLBody.getBytes();
         String responseHeader =
-                "HTTP/1.1 400 Bad Request\r\n";
+                "HTTP/1.1 400 Bad Request\r\n" +
+                        "Content-Type: text/html; charset=UTF-8\r\n\t" +
+                        "Content-Length: " + bytes.length +
+                        "\r\n\r\n";
         writer.write(responseHeader.getBytes());
+        writer.write(bytes);
         System.out.println("Response header:\n" + responseHeader + "\n");
     }
 
@@ -41,6 +48,43 @@ public class HttpServer {
         writer.write(bytes);
         System.out.println("Response header:\n" + responseHeader + "\n");
         System.out.println("Response body is HTML document.");
+    }
+
+    private void response500() throws IOException {
+        String HTMLBody = "<html><h1>500 Internal Server Error</h1></html>";
+        byte[] bytes = HTMLBody.getBytes();
+        String responseHeader =
+                "HTTP/1.1 500 Internal Server Error\r\n" +
+                        "Content-Type: text/html; charset=UTF-8\r\n\t" +
+                        "Content-Length: " + bytes.length +
+                        "\r\n\r\n";
+        writer.write(responseHeader.getBytes());
+        writer.write(bytes);
+        System.out.println("Response header:\n" + responseHeader + "\n");
+    }
+
+    @Override
+    public void run() {
+        synchronized (this) {
+            this.thread = Thread.currentThread();
+            try {
+                this.server = new ServerSocket(port);
+            }
+            catch (IOException e)
+            {
+                //????
+            }
+            System.out.println("Server started!\n");
+
+            try {
+                while (ClientHandle()) ;
+            }
+            catch (IOException e)
+            {
+                //????
+            }
+            System.out.println("Server stopped.");
+        }
     }
 
     public boolean ClientHandle() throws IOException {
@@ -82,9 +126,7 @@ public class HttpServer {
                 System.out.println("Param: " + param);
             else System.out.println("Param is empty.");
 
-            String responseHeader;
             String responseDoc;
-            byte[] b;
 
             if (method.equals("GET")) {
                 String response;
@@ -101,13 +143,18 @@ public class HttpServer {
 
                     case "calculate":
                         if (!arg.equals("")) {
-                            response = "<p>Response: " + new Calculator(arg).getResult() + "</p>";
-                            responseDoc =
-                                    "<head><meta charset=\"UTF-8\"></head>" +
-                                            "<html><body>" +
-                                            "<p>Кочетков Дмитрий Андреевич, ИКБО-02-17</p>" + response +
-                                            "</body></html>";
-                            response200(responseDoc);
+                            try {
+                                response = "<p>Response: " + new Calculator(arg).getResult() + "</p>";
+                                responseDoc =
+                                        "<head><meta charset=\"UTF-8\"></head>" +
+                                                "<html><body>" +
+                                                "<p>Кочетков Дмитрий Андреевич, ИКБО-02-17</p>" + response +
+                                                "</body></html>";
+                                response200(responseDoc);
+                            }
+                            catch (RuntimeException e) {
+                                response500();
+                            }
                         } else {
                             response400();
                             break;
@@ -115,16 +162,6 @@ public class HttpServer {
                         break;
 
                     case "favicon.ico":
-                        /*
-                        responseHeader =
-                                "HTTP/1.1 200 OK\r\n\t" +
-                                        "Content-Type: text/html; charset=UTF-8\r\n\t" +
-                                        "Content-Length: " + 0 +
-                                        "\r\n\r\n";
-
-                        socket.getOutputStream().write(responseHeader.getBytes());
-                        System.out.println("Response header:\n\t" + responseHeader + "\n");
-                        */
                         response200();
                         break;
 
