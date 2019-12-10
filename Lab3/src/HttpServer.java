@@ -1,6 +1,11 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,6 +44,18 @@ public class HttpServer implements Runnable {
 
     private void response200(String HTMLBody) throws IOException {
         byte[] bytes = HTMLBody.getBytes();
+        String responseHeader =
+                "HTTP/1.1 200 OK\r\n\t" +
+                        "Content-Type: text/html; charset=UTF-8\r\n\t" +
+                        "Content-Length: " + bytes.length +
+                        "\r\n\r\n";
+        writer.write(responseHeader.getBytes());
+        writer.write(bytes);
+        System.out.println("Response header:\n" + responseHeader + "\n");
+        System.out.println("Response body is HTML document.");
+    }
+
+    private void response200(byte[] bytes) throws IOException {
         String responseHeader =
                 "HTTP/1.1 200 OK\r\n\t" +
                         "Content-Type: text/html; charset=UTF-8\r\n\t" +
@@ -99,8 +116,7 @@ public class HttpServer implements Runnable {
         writer = socket.getOutputStream();
 
         if (request == null) {
-            response400();
-            return true;
+            response200();
         }
         else {
             Pattern pattern = Pattern.compile("(.*) \\/(.*) HTTP\\/1\\.1");
@@ -116,9 +132,9 @@ public class HttpServer implements Runnable {
                 param = matcher.group(2);
             }
 
-            if (param.matches("calculate/.*")) {
-                arg = param.substring("calculate/".length());
-                param = "calculate";
+            if (param.matches("calculator/.*")) {
+                arg = param.substring("calculator/".length());
+                param = "calculator";
             }
 
             System.out.println("Method: " + method);
@@ -126,47 +142,35 @@ public class HttpServer implements Runnable {
                 System.out.println("Param: " + param);
             else System.out.println("Param is empty.");
 
-            String responseDoc;
-
             if (method.equals("GET")) {
-                String response;
                 switch (param) {
                     case "":
-                        response = "";
-                        String myHTMLDoc =
-                                "<head><meta charset=\"UTF-8\"></head>" +
-                                        "<html><body>" +
-                                        "<p>Кочетков Дмитрий Андреевич, ИКБО-02-17</p>" + response +
-                                        "</body></html>";
-                        response200(myHTMLDoc);
+                        //byte[] HTMLDoc = Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\index.html"));
+                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\index.html")));
                         break;
 
-                    case "calculate":
-                        if (!arg.equals("")) {
-                            try {
-                                response = "<p>Response: " + new Calculator(arg).getResult() + "</p>";
-                                responseDoc =
-                                        "<head><meta charset=\"UTF-8\"></head>" +
-                                                "<html><body>" +
-                                                "<p>Кочетков Дмитрий Андреевич, ИКБО-02-17</p>" + response +
-                                                "</body></html>";
-                                response200(responseDoc);
-                            }
-                            catch (RuntimeException e) {
-                                response500();
-                            }
-                        } else {
-                            response400();
-                            break;
-                        }
+                    case "calculator":
+                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\calculator.html")));
                         break;
 
                     case "favicon.ico":
                         response200();
                         break;
 
+                    case "style.css":
+                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\style.css")));
+                        break;
+
+                    case "calc_style.css":
+                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\calc_style.css")));
+                        break;
+
+                    case "calc.js":
+                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\calc.js")));
+                        break;
+
                     default:
-                        response400();;
+                        response400();
                         break;
                 }
             } else {
@@ -175,7 +179,7 @@ public class HttpServer implements Runnable {
 
             socket.close();
             System.out.println("Connection closed.\n");
-            return true;
         }
+        return true;
     }
 }

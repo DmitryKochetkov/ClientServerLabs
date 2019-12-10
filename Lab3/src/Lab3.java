@@ -1,6 +1,6 @@
 import java.io.IOException;
 
-public class Main {
+public class Lab3 {
     public static void main(String[] args) {
         try {
             HttpServer httpServer = new HttpServer(8000);
