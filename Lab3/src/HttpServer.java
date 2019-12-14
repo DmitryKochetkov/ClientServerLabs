@@ -173,7 +173,12 @@ public class HttpServer implements Runnable {
                         response400();
                         break;
                 }
-            } else {
+            }
+            else if (method.equals("POST")) {
+                response200(Double.toString(new Calculator(param).getResult()).getBytes());
+            }
+
+            else {
                 response400();
             }
 
