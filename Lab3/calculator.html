@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="calc_style.css">
+    <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="calc.js"></script>
+</head>
+<body>
+    <div class="calculator">
+        <div class="content">
+            <form action="">
+                Param 1:
+                <input type="text" id="param1">
+            </form>
+            <form action="">
+                <select name="operation" id="operation">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                </select>
+            </form>
+            <form action="">
+                Param 2:
+                <input type="text" id="param2">
+            </form>
+            <button name="equals" onclick="calculate();">=</button>
+            <form action="">
+                Result:
+                <input type="text" id="result">
+            </form>
+        </div>
+    </div>
+    
+
+    <!--
+    <div class="calculator">
+        <div class="row">
+            <div class="button">7</div>
+            <div class="button">8</div>
+            <div class="button">9</div>
+        </div>
+        <div class="row">
+            <div class="button">4</div>
+            <div class="button">5</div>
+            <div class="button">6</div>
+        </div>
+        <div class="row">
+            <div class="button">1</div>
+            <div class="button">2</div>
+            <div class="button">3</div>
+        </div>
+        <div class="row">
+                <div class="button">0</div>
+                <div class="button">.</div>
+                <div class="button">=</div>
+        </div>
+    </div>
+-->
+    
+</body>
+</html>
