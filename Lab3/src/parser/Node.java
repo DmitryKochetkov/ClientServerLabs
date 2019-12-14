@@ -1,3 +1,5 @@
+package parser;
+
 public abstract class Node {
 
     static class NumberNode extends Node {
@@ -16,7 +18,7 @@ public abstract class Node {
         }
     }
 
-    static class BinOpNode extends Node { //Binary Operation Node
+    static class BinOpNode extends Node { //Binary Operation parser.Node
         Token op;
         Node left;
         Node right;

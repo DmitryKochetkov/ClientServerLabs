@@ -1,3 +1,5 @@
+package parser;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -105,10 +107,15 @@ public class Parser { //грамматический анализатор
         return 0;
     }
 
+    public double get_eval() {
+        Node node = parse2();
+        return eval2(node);
+    }
+
     Token require(TokenType type) {
         Token t = match(type);
         if (t == null)
-            error("Error, position " + pos + ". Token " + type + " expected!");
+            error("Error, position " + pos + ". parser.Token " + type + " expected!");
         return t;
     }
 

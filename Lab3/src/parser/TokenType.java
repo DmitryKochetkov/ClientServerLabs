@@ -1,3 +1,5 @@
+package parser;
+
 import java.util.regex.Pattern;
 
 public enum TokenType {

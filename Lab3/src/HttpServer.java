@@ -6,6 +6,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,8 +20,13 @@ public class HttpServer implements Runnable {
 
     private Thread thread;
 
+    //Data
+    private List<User> data = new ArrayList<>();
+
     public HttpServer(int port) throws IOException {
         this.port = port;
+        data.add(new User("Dmitry", "Kochetkov", 'm', "dimedrol", "228"));
+        data.add(new User("Egor", "Kuznetsov", 'm', "heywood_floyd", "Sonya"));
     }
 
     private void response400() throws IOException {
@@ -137,6 +144,11 @@ public class HttpServer implements Runnable {
                 param = "calculator";
             }
 
+            if (param.matches("table/.*")) {
+                arg = param.substring("table/".length());
+                param = "table";
+            }
+
             System.out.println("Method: " + method);
             if (!param.equals(""))
                 System.out.println("Param: " + param);
@@ -145,12 +157,15 @@ public class HttpServer implements Runnable {
             if (method.equals("GET")) {
                 switch (param) {
                     case "":
-                        //byte[] HTMLDoc = Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\index.html"));
-                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\index.html")));
+                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\index.html")));
                         break;
 
                     case "calculator":
-                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\calculator.html")));
+                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\calculator.html")));
+                        break;
+
+                    case "table":
+                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\table.html")));
                         break;
 
                     case "favicon.ico":
@@ -158,15 +173,19 @@ public class HttpServer implements Runnable {
                         break;
 
                     case "style.css":
-                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\style.css")));
+                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\style.css")));
                         break;
 
                     case "calc_style.css":
-                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\calc_style.css")));
+                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\calc_style.css")));
                         break;
 
                     case "calc.js":
-                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\calc.js")));
+                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\calc.js")));
+                        break;
+
+                    case "table.js":
+                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\table.js")));
                         break;
 
                     default:

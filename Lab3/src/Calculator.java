@@ -1,15 +1,13 @@
-public class Calculator implements Result {
+import parser.Node;
+import parser.Parser;
 
-    enum Operations {
-        ADD, SUB, MUL, DIV
-    }
+public class Calculator implements Result {
 
     private double Result;
 
     public Calculator(String s) {
         Parser parser = new Parser(s);
-        Node node = parser.parse2();
-        Result = parser.eval2(node);
+        Result = parser.get_eval();
     }
 
     @Override
