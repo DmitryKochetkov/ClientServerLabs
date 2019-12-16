@@ -19,4 +19,14 @@ public class User {
         else throw new RuntimeException();
         this.reg_date = new Date();
     }
+
+    @Override
+    public String toString() {
+        return
+                first_name + ' ' +
+                last_name + ' ' +
+                login + ' ' +
+                passwd + ' ' + sex + ' ' +
+                reg_date;
+    }
 }

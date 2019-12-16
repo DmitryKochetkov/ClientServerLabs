@@ -168,6 +168,14 @@ public class HttpServer implements Runnable {
                         response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\table.html")));
                         break;
 
+                    case "get_table":
+                        String response = "";
+                        for (User user: data) {
+                            response += user.toString() + '\n';
+                        }
+                        response200(response);
+                        break;
+
                     case "favicon.ico":
                         response200();
                         break;
