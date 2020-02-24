@@ -8,4 +8,4 @@ Lab1 implements the simplest client and server using Socket and ServerSocket res
 
 ## Lab2: Simple web server
 
-Lab2 server provides the same functionality as Lab1, but it uses the web interface for interaction with client. It doesn't use ready-made solutions such as Tomcat or Apaache, so basically this program implements simple manipulations with HTTP requests.
+Lab2 server provides the same functionality as Lab1, but it uses the web interface for interaction with client. It doesn't use ready-made solutions such as Tomcat or Apache, so basically this program implements simple manipulations with HTTP requests.
