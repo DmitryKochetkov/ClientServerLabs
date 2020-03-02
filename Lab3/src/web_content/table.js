@@ -55,13 +55,24 @@ function update() {
     var table = document.getElementById("users_table");
     var id = document.getElementById("num2").value;
     var row = table.rows[id];
-    row.cells[0] = document.getElementById("name").value;
+    row.cells[0].innerHTML = document.getElementById("name").value;
+    row.cells[1].innerHTML = document.getElementById("surname").value;
 }
 
 function remove() {
     var table = document.getElementById("users_table");
     var id = document.getElementById("num").value;
     table.deleteRow(id);
+}
+
+function add() {
+    insert(document.getElementById("new_name").value + " " +
+        document.getElementById("new_surname").value + " " +
+        document.getElementById("new_login").value + " " +
+        document.getElementById("new_pass").value + " " +
+        document.getElementById("new_sex").value +
+        Date()
+    )
 }
 
 function push_first_word(s) {

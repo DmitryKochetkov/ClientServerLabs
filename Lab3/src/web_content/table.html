@@ -26,11 +26,44 @@
         </thead>
     </table>
     <br>
-    Удалить строку с номером: <input type="text" id="num"> <button onclick="remove();">Удалить</button><br>
+    Удалить строку с номером: <input type="text" id="num"> <button onclick="remove();">Удалить</button>
+    <br>
+    <br>
     Изменить строку с номером: 
     <input type="text" id="num2"><br> 
     Имя: <input type="text" id="name"> Фамилия: <input type="text" id="surname">
     <button onclick="update();">Изменить</button>
+    <br>
+    <br>
+    Добавить строку:
+
+    <div>
+        <label for="new_name">Имя</label>
+        <input type="text" id="new_name">
+    </div>
+
+    <div>
+        <label for="new_surname">Фамилия</label>
+        <input type="text" id="new_surname">
+    </div>
+
+    <div>
+        <label for="new_login">Логин</label>
+        <input type="text" id="new_login">
+    </div>
+
+    <div>
+        <label for="new_pass">Пароль</label>
+        <input type="text" id="new_pass">
+    </div>
+
+    <div>
+        <label for="new_sex">Пол</label>
+        <input type="text" id="new_sex">
+    </div>
+
+    <button onclick="add()">Добавить</button>
+
     <script>init()</script>
 </body>
 </html>

@@ -12,6 +12,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HttpServer implements Runnable {
+    //TODO: get rid of absolute paths
+    private final String resource_root_linux = "/home/dimedrol/Programming/IdeaProjects/ClientServerLabs/Lab3/src/web_content";
+    private final String resource_root_windows = "E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\index.html";
+
     private int port;
     private ServerSocket server;
     private Socket socket;
@@ -157,15 +161,15 @@ public class HttpServer implements Runnable {
             if (method.equals("GET")) {
                 switch (param) {
                     case "":
-                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\index.html")));
+                        response200(Files.readAllBytes(Paths.get("/home/dimedrol/Programming/IdeaProjects/ClientServerLabs/Lab3/src/web_content/index.html")));
                         break;
 
                     case "calculator":
-                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\calculator.html")));
+                        response200(Files.readAllBytes(Paths.get("/home/dimedrol/Programming/IdeaProjects/ClientServerLabs/Lab3/src/web_content/calculator.html")));
                         break;
 
                     case "table":
-                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\table.html")));
+                        response200(Files.readAllBytes(Paths.get("/home/dimedrol/Programming/IdeaProjects/ClientServerLabs/Lab3/src/web_content/table.html")));
                         break;
 
                     case "get_table":
@@ -181,19 +185,19 @@ public class HttpServer implements Runnable {
                         break;
 
                     case "style.css":
-                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\style.css")));
+                        response200(Files.readAllBytes(Paths.get("/home/dimedrol/Programming/IdeaProjects/ClientServerLabs/Lab3/src/web_content/style.css")));
                         break;
 
                     case "calc_style.css":
-                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\calc_style.css")));
+                        response200(Files.readAllBytes(Paths.get("/home/dimedrol/Programming/IdeaProjects/ClientServerLabs/Lab3/src/web_content/calc_style.css")));
                         break;
 
                     case "calc.js":
-                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\calc.js")));
+                        response200(Files.readAllBytes(Paths.get("/home/dimedrol/Programming/IdeaProjects/ClientServerLabs/Lab3/src/web_content/calc.js")));
                         break;
 
                     case "table.js":
-                        response200(Files.readAllBytes(Paths.get("E:\\Programming\\ClientServerLabs\\Lab3\\src\\web_content\\table.js")));
+                        response200(Files.readAllBytes(Paths.get("/home/dimedrol/Programming/IdeaProjects/ClientServerLabs/Lab3/src/web_content/table.js")));
                         break;
 
                     default:
